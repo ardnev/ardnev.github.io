@@ -1,34 +1,30 @@
-/*//////////////////////
-	*
-	* SCROLLMAGIC STARTS
-	*
-	*//////////////////////
-	// init controller
-	var controller = new ScrollMagic.Controller();
+let fullframe = 0.7;
+let tl = gsap.timeline({
+	repeat: -1,
+	yoyo: false,
+	paused: false
+});
 
- //flow
-  $(".flow").each(function(){
-    $(this).addClass('out');
-    new ScrollMagic.Scene({
-      triggerElement: this,
-      triggerHook: 0,
-      duration: 600
-    })
-    .on("enter", function(ev){$(ev.target.triggerElement()).removeClass('out');})
-    .on("leave", function(ev){$(ev.target.triggerElement()).addClass('out');})
-    .addTo(controller);
-  });
-
- //fade
-  $(".fade").each(function(){
-    $(this).addClass('out');
-    new ScrollMagic.Scene({
-      triggerElement: this,
-      triggerHook: 0.65
-    })
-    .on("enter", function(ev){$(ev.target.triggerElement()).removeClass('out');})
-    .on("leave", function(ev){$(ev.target.triggerElement()).addClass('out');})
-    .addTo(controller);
-  });
-
-$('.container').removeClass('out');
+tl.to("#steps path", {
+	duration: fullframe,
+	xPercent: -100,
+	yPercent: 100,
+	ease: Linear.easeNone
+});
+tl.to(
+	"#steps path:first-child",
+	{ duration: fullframe, opacity: 0, ease: Linear.easeNone },
+	"<"
+);
+tl.to(
+	"#steps path:last-child",
+	{ duration: fullframe, opacity: 1, ease: Linear.easeNone },
+	"<"
+);
+let btl = gsap.timeline({
+	repeat: -1,
+	paused: false
+});
+btl.to("#ball", fullframe * 0.48, { y: -25, x: 0, ease: Sine.easeOut }, "<");
+btl.to("#ball", fullframe * 0.48, { y: 20, x: 0, ease: Sine.easeIn });
+btl.to("#ball", fullframe * 0.04, { y: 5, x: 0, ease: Linear.easeNone });
